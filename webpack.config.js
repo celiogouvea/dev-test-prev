@@ -1,9 +1,14 @@
 module.exports = {
-    entry:"./assert/js/main.js",
+    entry:"./src/main.js",
     output:{
-        path:__dirname,
-        filename:'./assert/js/bundle.js'
+        path:__dirname + '/public',
+        filename:'./assert/js/bundle.js',
     },
+
+    devServer:{
+        contentBase: __dirname + '/public',
+    },
+
     module:{
         rules: [
             {
