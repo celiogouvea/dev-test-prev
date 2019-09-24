@@ -25,39 +25,59 @@ class App {
 
         if(repoInput.length === 0){
             return;}
-            
         
-        const response = await api.get(`/repos/${repoInput}`);
+        this.setLoading();
+            
+        try{
+            const response = await api.get(`/repos/${repoInput}`);
 
-        console.log(response);
+            const {name, description, html_url, owner:{avatar_url}} = response.data;
 
-        const {name, description, html_url, owner:{avatar_url}} = response.data;
+            this.repositories.push({
+                name,
+                description,
+                avatar_url,
+                html_url,
+            });
+            this.inputElement.value = '';
 
-        this.repositories.push({
-            name,
-            description,
-            avatar_url,
-            html_url,
-        });
-        this.render();
-        console.log(this.repositories);
+            this.render();
+        }catch(err){
+            alert("Repositorio informado não existe");
+        }
+        this.setLoading(false);
+
+    }
+
+    setLoading(loading = true){
+        if (loading === true) {
+            let loadinElement = document.createElement('span');
+            loadinElement.appendChild(document.createTextNode('Carregando'));
+            loadinElement.setAttribute('id', 'loading');
+
+            this.formElement.appendChild(loadinElement);
+        }else{
+            document.getElementById('loading').remove();
+        }
     }
 
     render(){
         this.listElement.innerHTML = '';
+
         this.repositories.forEach(repo => {
             let imgElement = document.createElement('img');
             imgElement.setAttribute('src',repo.avatar_url);
 
             let titleElemente = document.createElement('strong');
-            titleElemente.appendChild(document.createTextNode(repo.nome));
+            titleElemente.appendChild(document.createTextNode(repo.name));
 
             let descricaoElemente = document.createElement('p');
             descricaoElemente.appendChild(document.createTextNode(repo.description));
 
             let urlElement = document.createElement('a');
             urlElement.setAttribute('target', '_blank');
-            urlElement.appendChild(document.createTextNode(repo.html));
+            urlElement.setAttribute('href', repo.html_url);
+            urlElement.appendChild(document.createTextNode('Acesar'));
 
             let liElement = document.createElement("li");
             liElement.appendChild(imgElement);
