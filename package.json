@@ -20,7 +20,7 @@
     "build": "webpack --mode=production"
   },
   "dependencies": {
-    "axios": "^0.19.0"
+    "axios": "^0.21.1"
   },
   "repository": "https://github.com/celiogouvea/dev-test-prev.git",
   "author": "celiogouvea <celiogomesgouvea@gmail.com>"
